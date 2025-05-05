@@ -39,7 +39,7 @@ def contar_caracteres(mensaje):
 
 def generar_mensaje():
     prompt = """
-Quiero que generes un mensaje diario para enviar por WhatsApp. El mensaje DEBE tener menos de 1200 caracteres en total. El mensaje debe tener tres secciones bien diferenciadas. Sigue exactamente este formato y tono:
+Quiero que generes un mensaje diario para enviar por WhatsApp. El mensaje DEBE tener menos de 1150 caracteres en total. El mensaje debe tener tres secciones bien diferenciadas. Sigue exactamente este formato y tono:
 
 FRASES INSPIRADORAS DEL DIA:
 Dame 3 frases breves, profundas y motivadoras, extraidas de libros, filosofos, escritores, figuras historicas, emprendedores o lideres de negocios. Cada frase debe estar entre comillas y debe incluir el nombre del autor. Usa frases que sirvan para reflexionar o impulsar el dia.
@@ -56,7 +56,7 @@ Dame 3 noticias reales y actuales (maximo de los ultimos 3 dias) sobre startups 
 No incluyas introducciones ni cierres, solo el contenido. El objetivo es que el mensaje sea informativo, inspirador y atractivo para leer en WhatsApp, cada mañana.
 
 IMPORTANTE: 
-- El mensaje total NO debe exceder 1200 caracteres bajo ninguna circunstancia.
+- El mensaje total NO debe exceder 1150 caracteres bajo ninguna circunstancia.
 - Esta PROHIBIDO usar emojis en la respuesta.
 - NO uses caracteres especiales (tildes, ñ, etc).
 - NO uses corchetes [] ni parentesis () en las URLs.
