@@ -1,0 +1,33 @@
+name: Enviar Mensaje Diario
+
+on:
+  schedule:
+    - cron: '50 4 * * *'  # Ejecuta todos los días a las 1:50 AM (Argentina) / 4:50 AM UTC
+  workflow_dispatch:  # Permite ejecución manual
+
+jobs:
+  send-message:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run script
+      env:
+        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        TWILIO_SID: ${{ secrets.TWILIO_SID }}
+        TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+        TO_WHATSAPP: ${{ secrets.TO_WHATSAPP }}
+        SITE_URL: ${{ secrets.SITE_URL }}
+        SITE_NAME: ${{ secrets.SITE_NAME }}
+      run: python main.py 

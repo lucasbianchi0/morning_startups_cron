@@ -4,15 +4,29 @@ from twilio.rest import Client
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+# Cargar variables de entorno desde .env en desarrollo local
+if os.path.exists('.env'):
+    load_dotenv()
 
 # Cargar claves desde variables de entorno
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 TWILIO_SID = os.getenv("TWILIO_SID")
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 TO_WHATSAPP = os.getenv("TO_WHATSAPP")
-SITE_URL = os.getenv("SITE_URL", "http://localhost")  # Optional
-SITE_NAME = os.getenv("SITE_NAME", "Morning Startup")  # Optional
+SITE_URL = os.getenv("SITE_URL", "http://localhost")
+SITE_NAME = os.getenv("SITE_NAME", "Morning Startup")
+
+# Verificar variables requeridas
+required_vars = {
+    "OPENROUTER_API_KEY": OPENROUTER_API_KEY,
+    "TWILIO_SID": TWILIO_SID,
+    "TWILIO_AUTH_TOKEN": TWILIO_AUTH_TOKEN,
+    "TO_WHATSAPP": TO_WHATSAPP
+}
+
+missing_vars = [var for var, value in required_vars.items() if not value]
+if missing_vars:
+    raise EnvironmentError(f"Faltan las siguientes variables de entorno: {', '.join(missing_vars)}")
 
 def contar_caracteres(mensaje):
     print("\n=== Conteo de Caracteres ===")
