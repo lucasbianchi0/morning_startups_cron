@@ -45,13 +45,13 @@ FRASES INSPIRADORAS DEL DIA:
 Dame 3 frases breves, profundas y motivadoras, extraidas de libros, filosofos, escritores, figuras historicas, emprendedores o lideres de negocios. Cada frase debe estar entre comillas y debe incluir el nombre del autor. Usa frases que sirvan para reflexionar o impulsar el dia.
 
 IDEAS INNOVADORAS DE STARTUPS:
-Dame 10 ideas breves de startups con alto potencial. Las ideas deben ser creativas, escalables y resolver problemas reales. Pueden basarse en tecnologia, inteligencia artificial, sostenibilidad, salud mental, educacion, productividad, etc. Que suenen atractivas y posibles de ejecutar.
+Dame 5 ideas breves de startups con alto potencial. Las ideas deben ser creativas, escalables y resolver problemas reales. Pueden basarse en tecnologia, inteligencia artificial, sostenibilidad, salud mental, educacion, productividad, etc. Que suenen atractivas y posibles de ejecutar.
 
-NOTICIAS RECIENTES SOBRE STARTUPS:
-Dame 3 noticias reales y actuales (maximo de los ultimos 3 dias) sobre startups o empresas emergentes. Para cada una:
-- Incluye un titulo breve y claro
-- Una descripcion en 1 linea de lo que ocurrio
-- Y un enlace URL confiable para leer mas.
+OPORTUNIDADES DE INVERSION EN ARGENTINA:
+Dame 2 ideas de inversion actuales y relevantes para Argentina en este momento (considerando un horizonte temporal de mediano plazo). Para cada idea, incluye:
+- Un titulo conciso que describa la inversion
+- Una breve descripcion de la oportunidad y los factores a considerar
+- Una fuente de informacion confiable donde se pueda profundizar sobre el tema
 
 No incluyas introducciones ni cierres, solo el contenido. El objetivo es que el mensaje sea informativo, inspirador y atractivo para leer en WhatsApp, cada mañana.
 
