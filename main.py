@@ -94,7 +94,7 @@ IMPORTANTE:
 def enviar_por_whatsapp(mensaje):
     try:
         client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
-        from_whatsapp = 'whatsapp:+14155238886'  # número de Twilio
+        from_whatsapp = 'whatsapp:+15557444408'  # número de Twilio
 
         message = client.messages.create(
             body=mensaje,
