@@ -13,6 +13,7 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 TWILIO_SID = os.getenv("TWILIO_SID")
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 TO_WHATSAPP = os.getenv("TO_WHATSAPP")
+TWILIO_TEMPLATE_SID = os.getenv("TWILIO_TEMPLATE_SID")
 SITE_URL = os.getenv("SITE_URL", "http://localhost")
 SITE_NAME = os.getenv("SITE_NAME", "Morning Startup")
 
@@ -82,26 +83,53 @@ IMPORTANTE:
         response_data = response.json()
         
         if 'choices' in response_data and len(response_data['choices']) > 0:
-            return response_data['choices'][0]['message']['content']
+            content = response_data['choices'][0]['message']['content']
+            # Separar las tres secciones
+            secciones = {
+                'frases': '',
+                'ideas': '',
+                'oportunidades': ''
+            }
+            lines = content.split('\n')
+            current = None
+            for line in lines:
+                if line.strip().startswith('FRASES INSPIRADORAS DEL DIA:'):
+                    current = 'frases'
+                    continue
+                elif line.strip().startswith('IDEAS INNOVADORAS DE STARTUPS:'):
+                    current = 'ideas'
+                    continue
+                elif line.strip().startswith('OPORTUNIDADES DE INVERSION EN ARGENTINA:'):
+                    current = 'oportunidades'
+                    continue
+                if current and line.strip():
+                    secciones[current] += (line + '\n')
+            # Quitar salto de línea final
+            for k in secciones:
+                secciones[k] = secciones[k].strip()
+            return secciones
         else:
             print("Error: Unexpected response format from OpenRouter")
-            return "Error al generar el mensaje. Por favor, revisa los logs."
+            return None
             
     except Exception as e:
         print(f"Error al hacer la petición a OpenRouter: {str(e)}")
-        return "Error al generar el mensaje. Por favor, revisa los logs."
+        return None
 
-def enviar_por_whatsapp(mensaje):
+def enviar_por_whatsapp(secciones):
     try:
         client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
         from_whatsapp = 'whatsapp:+15557444408'  # número de Twilio
-
         message = client.messages.create(
-            body=mensaje,
             from_=from_whatsapp,
-            to=TO_WHATSAPP
+            to=TO_WHATSAPP,
+            content_sid=TWILIO_TEMPLATE_SID,
+            content_variables=json.dumps({
+                "1": secciones['frases'],
+                "2": secciones['ideas'],
+                "3": secciones['oportunidades']
+            })
         )
-        
         print("Mensaje enviado exitosamente!")
         return True
     except Exception as e:
@@ -109,14 +137,15 @@ def enviar_por_whatsapp(mensaje):
         return False
 
 if __name__ == "__main__":
-    mensaje = generar_mensaje()
-    if mensaje:
+    secciones = generar_mensaje()
+    if secciones:
         print("\nMensaje generado correctamente, contando caracteres...")
-        num_caracteres = contar_caracteres(mensaje)
-        if num_caracteres <= 1600:
-            print(f"\nIntentando enviar por WhatsApp ({num_caracteres} caracteres)...")
-            enviar_por_whatsapp(mensaje)
+        total = sum(len(v) for v in secciones.values())
+        print(f"Caracteres totales: {total}")
+        if total <= 1150:
+            print(f"\nIntentando enviar por WhatsApp ({total} caracteres)...")
+            enviar_por_whatsapp(secciones)
         else:
-            print(f"\nERROR: El mensaje excede el límite de 1600 caracteres ({num_caracteres} caracteres)")
+            print(f"\nERROR: El mensaje excede el límite de 1150 caracteres ({total} caracteres)")
     else:
         print("No se pudo generar el mensaje, no se enviará por WhatsApp.")
