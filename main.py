@@ -104,9 +104,17 @@ IMPORTANTE:
                     continue
                 if current and line.strip():
                     secciones[current] += (line + '\n')
-            # Quitar salto de línea final
+            # Quitar salto de línea final y títulos
             for k in secciones:
-                secciones[k] = secciones[k].strip()
+                # Elimina el título si está presente al inicio
+                if k == 'frases' and secciones[k].startswith('FRASES INSPIRADORAS DEL DIA:'):
+                    secciones[k] = secciones[k][len('FRASES INSPIRADORAS DEL DIA:'):].strip()
+                elif k == 'ideas' and secciones[k].startswith('IDEAS INNOVADORAS DE STARTUPS:'):
+                    secciones[k] = secciones[k][len('IDEAS INNOVADORAS DE STARTUPS:'):].strip()
+                elif k == 'oportunidades' and secciones[k].startswith('OPORTUNIDADES DE INVERSION EN ARGENTINA:'):
+                    secciones[k] = secciones[k][len('OPORTUNIDADES DE INVERSION EN ARGENTINA:'):].strip()
+                else:
+                    secciones[k] = secciones[k].strip()
             return secciones
         else:
             print("Error: Unexpected response format from OpenRouter")
@@ -125,6 +133,7 @@ def enviar_por_whatsapp(secciones):
             raise ValueError("TWILIO_TEMPLATE_SID no está configurado en las variables de entorno")
             
         print(f"Enviando mensaje usando template SID: {TWILIO_TEMPLATE_SID}")
+        print(f"Enviando a: {TO_WHATSAPP}")
         
         message = client.messages.create(
             from_=from_whatsapp,
@@ -136,7 +145,13 @@ def enviar_por_whatsapp(secciones):
                 "3": secciones['oportunidades']
             })
         )
-        print("Mensaje enviado exitosamente!")
+        
+        print(f"Mensaje enviado exitosamente!")
+        print(f"Message SID: {message.sid}")
+        print(f"Message Status: {message.status}")
+        print(f"Message Error Code: {message.error_code}")
+        print(f"Message Error Message: {message.error_message}")
+        
         return True
     except Exception as e:
         print(f"Error al enviar mensaje por WhatsApp: {str(e)}")

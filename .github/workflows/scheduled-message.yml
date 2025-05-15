@@ -4,7 +4,7 @@ on:
   # schedule:
   #   - cron: '30 10 * * *'  # Ejecuta todos los días a las 7:30 AM (Argentina) / 10:30 AM UTC
   schedule:
-    - cron: '50 13 * * *'  # Ejecuta todos los días a las 10:50 AM (Argentina) / 13:50 PM UTC
+    - cron: '18 15 * * *'  # Ejecuta todos los días a las 12:18 PM (Argentina) / 15:18 UTC
   workflow_dispatch:  # Permite ejecución manual
 
 permissions:
