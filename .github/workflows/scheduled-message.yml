@@ -4,7 +4,7 @@ on:
   # schedule:
   #   - cron: '30 10 * * *'  # Ejecuta todos los días a las 7:30 AM (Argentina) / 10:30 AM UTC
   schedule:
-    - cron: '20 12 * * *'  # Ejecuta todos los días a las 9:20 AM (Argentina) / 12:20 PM UTC
+    - cron: '50 13 * * *'  # Ejecuta todos los días a las 10:50 AM (Argentina) / 13:50 PM UTC
   workflow_dispatch:  # Permite ejecución manual
 
 permissions:
@@ -51,6 +51,10 @@ jobs:
           echo "Error: TO_WHATSAPP is not set"
           exit 1
         fi
+        if [ -z "${{ secrets.TWILIO_TEMPLATE_SID }}" ]; then
+          echo "Error: TWILIO_TEMPLATE_SID is not set"
+          exit 1
+        fi
         echo "All required environment variables are set"
     
     - name: Run script
@@ -59,6 +63,7 @@ jobs:
         TWILIO_SID: ${{ secrets.TWILIO_SID }}
         TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
         TO_WHATSAPP: ${{ secrets.TO_WHATSAPP }}
+        TWILIO_TEMPLATE_SID: ${{ secrets.TWILIO_TEMPLATE_SID }}
         SITE_URL: ${{ secrets.SITE_URL }}
         SITE_NAME: ${{ secrets.SITE_NAME }}
       run: |
