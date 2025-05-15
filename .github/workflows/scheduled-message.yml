@@ -3,6 +3,8 @@ name: Enviar Mensaje Diario
 on:
   # schedule:
   #   - cron: '30 10 * * *'  # Ejecuta todos los días a las 7:30 AM (Argentina) / 10:30 AM UTC
+  schedule:
+    - cron: '20 12 * * *'  # Ejecuta todos los días a las 9:20 AM (Argentina) / 12:20 PM UTC
   workflow_dispatch:  # Permite ejecución manual
 
 permissions:

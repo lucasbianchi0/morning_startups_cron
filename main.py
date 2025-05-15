@@ -119,7 +119,13 @@ IMPORTANTE:
 def enviar_por_whatsapp(secciones):
     try:
         client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
-        from_whatsapp = 'whatsapp:+15557444408'  # número de Twilio
+        from_whatsapp = 'whatsapp:+15557444408'  
+        
+        if not TWILIO_TEMPLATE_SID:
+            raise ValueError("TWILIO_TEMPLATE_SID no está configurado en las variables de entorno")
+            
+        print(f"Enviando mensaje usando template SID: {TWILIO_TEMPLATE_SID}")
+        
         message = client.messages.create(
             from_=from_whatsapp,
             to=TO_WHATSAPP,
@@ -134,6 +140,7 @@ def enviar_por_whatsapp(secciones):
         return True
     except Exception as e:
         print(f"Error al enviar mensaje por WhatsApp: {str(e)}")
+        print(f"Detalles del error: {type(e).__name__}")
         return False
 
 if __name__ == "__main__":
