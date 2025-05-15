@@ -40,7 +40,7 @@ def contar_caracteres(mensaje):
 
 def generar_mensaje():
     prompt = """
-Quiero que generes un mensaje diario para enviar por WhatsApp. El mensaje DEBE tener menos de 1150 caracteres en total. El mensaje debe tener tres secciones bien diferenciadas. Sigue exactamente este formato y tono:
+Quiero que generes un mensaje diario para enviar por WhatsApp. El mensaje DEBE tener menos de 1150 caracteres en total. El mensaje debe tener tres secciones bien diferenciadas, pero NO incluyas los títulos de las secciones en el contenido, solo el texto de cada sección. Sigue exactamente este formato y tono:
 
 FRASES INSPIRADORAS DEL DIA:
 Dame 3 frases breves, profundas y motivadoras, extraidas de libros, filosofos, escritores, figuras historicas, emprendedores o lideres de negocios. Cada frase debe estar entre comillas y debe incluir el nombre del autor. Usa frases que sirvan para reflexionar o impulsar el dia.
@@ -54,7 +54,7 @@ Dame 2 ideas de inversion actuales y relevantes para Argentina en este momento (
 - Una breve descripcion de la oportunidad y los factores a considerar
 - Una fuente de informacion confiable donde se pueda profundizar sobre el tema
 
-No incluyas introducciones ni cierres, solo el contenido. El objetivo es que el mensaje sea informativo, inspirador y atractivo para leer en WhatsApp, cada mañana.
+No incluyas introducciones ni cierres, solo el contenido de cada sección. El objetivo es que el mensaje sea informativo, inspirador y atractivo para leer en WhatsApp, cada mañana.
 
 IMPORTANTE: 
 - El mensaje total NO debe exceder 1150 caracteres bajo ninguna circunstancia.
@@ -63,6 +63,7 @@ IMPORTANTE:
 - NO uses corchetes [] ni parentesis () en las URLs.
 - Usa solo URLs cortas y simples.
 - Minimiza el uso de saltos de linea.
+- NO incluyas los titulos de las secciones en la respuesta, solo el contenido.
 """
     try:
         response = requests.post(
@@ -104,8 +105,9 @@ IMPORTANTE:
                     continue
                 if current and line.strip():
                     secciones[current] += (line + '\n')
-            # Quitar salto de línea final y títulos
+            # Quitar salto de línea final y títulos (por si acaso)
             for k in secciones:
+                secciones[k] = secciones[k].strip()
                 # Elimina el título si está presente al inicio
                 if k == 'frases' and secciones[k].startswith('FRASES INSPIRADORAS DEL DIA:'):
                     secciones[k] = secciones[k][len('FRASES INSPIRADORAS DEL DIA:'):].strip()
@@ -113,8 +115,6 @@ IMPORTANTE:
                     secciones[k] = secciones[k][len('IDEAS INNOVADORAS DE STARTUPS:'):].strip()
                 elif k == 'oportunidades' and secciones[k].startswith('OPORTUNIDADES DE INVERSION EN ARGENTINA:'):
                     secciones[k] = secciones[k][len('OPORTUNIDADES DE INVERSION EN ARGENTINA:'):].strip()
-                else:
-                    secciones[k] = secciones[k].strip()
             return secciones
         else:
             print("Error: Unexpected response format from OpenRouter")
